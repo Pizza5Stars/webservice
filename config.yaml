@@ -1,0 +1,10 @@
+database:
+  driverClass: com.mysql.jdbc.Driver
+  user: root
+  password: root
+  url: jdbc:mysql://localhost/pizza5stars_db
+logging:
+  loggers:
+    "com.sun.jersey.api.container.filter.LoggingFilter": INFO
+    "org.eclipse.jetty.servlets": DEBUG
+    "org.glassfish.jersey.filter.LoggingFilter": DEBUG
