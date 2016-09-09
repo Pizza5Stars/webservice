@@ -1,6 +1,6 @@
-SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
-SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
-SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
+-- -----------------------------------------------------
+-- Schema pizza5stars_db
+-- -----------------------------------------------------
 
 -- -----------------------------------------------------
 -- Schema pizza5stars_db
@@ -35,12 +35,12 @@ CREATE TABLE IF NOT EXISTS `pizza5stars_db`.`address` (
   `city` VARCHAR(45) NOT NULL,
   `firstname` VARCHAR(45) NOT NULL,
   `lastname` VARCHAR(45) NOT NULL,
-  `user_id` INT(11) NULL DEFAULT NULL,
+  `customer_id` INT(11) NULL DEFAULT NULL,
   `phone` VARCHAR(20) NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_address_user_idx` (`user_id` ASC),
+  INDEX `fk_address_user_idx` (`customer_id` ASC),
   CONSTRAINT `fk_address_user`
-    FOREIGN KEY (`user_id`)
+    FOREIGN KEY (`customer_id`)
     REFERENCES `pizza5stars_db`.`customer` (`id`)
     ON DELETE NO ACTION
     ON UPDATE CASCADE)
@@ -54,11 +54,11 @@ DEFAULT CHARACTER SET = utf8;
 CREATE TABLE IF NOT EXISTS `pizza5stars_db`.`order` (
   `nr` INT(11) NOT NULL AUTO_INCREMENT,
   `date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `user_id` INT(11) NULL DEFAULT NULL,
+  `customer_id` INT(11) NULL,
   PRIMARY KEY (`nr`),
-  INDEX `fk_order_user1_idx` (`user_id` ASC),
+  INDEX `fk_order_user1_idx` (`customer_id` ASC),
   CONSTRAINT `fk_order_user1`
-    FOREIGN KEY (`user_id`)
+    FOREIGN KEY (`customer_id`)
     REFERENCES `pizza5stars_db`.`customer` (`id`)
     ON DELETE NO ACTION
     ON UPDATE CASCADE)
@@ -149,12 +149,12 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `pizza5stars_db`.`pizza` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
-  `user_id` INT(11) NULL DEFAULT NULL,
+  `customer_id` INT(11) NULL DEFAULT NULL,
   `size_name` VARCHAR(45) NOT NULL,
   `is_default` TINYINT(1) NOT NULL,
   `company_id` INT NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_pizza_user1_idx` (`user_id` ASC),
+  INDEX `fk_pizza_user1_idx` (`customer_id` ASC),
   INDEX `fk_pizza_size1_idx` (`size_name` ASC),
   INDEX `fk_pizza_company_idx` (`company_id` ASC),
   CONSTRAINT `fk_pizza_size`
@@ -163,7 +163,7 @@ CREATE TABLE IF NOT EXISTS `pizza5stars_db`.`pizza` (
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
   CONSTRAINT `fk_pizza_user`
-    FOREIGN KEY (`user_id`)
+    FOREIGN KEY (`customer_id`)
     REFERENCES `pizza5stars_db`.`customer` (`id`)
     ON DELETE NO ACTION
     ON UPDATE CASCADE,
@@ -222,11 +222,11 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `pizza5stars_db`.`rating_pizza`
+-- Table `pizza5stars_db`.`rating`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `pizza5stars_db`.`rating_pizza` (
+CREATE TABLE IF NOT EXISTS `pizza5stars_db`.`rating` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `user_id` INT NOT NULL,
+  `customer_id` INT NOT NULL,
   `pizza_id` INT NULL,
   `rating` FLOAT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`),
@@ -241,8 +241,3 @@ CREATE TABLE IF NOT EXISTS `pizza5stars_db`.`rating_pizza` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-
-
-SET SQL_MODE=@OLD_SQL_MODE;
-SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
-SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
