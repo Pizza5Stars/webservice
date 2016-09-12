@@ -8,3 +8,8 @@ logging:
     "com.sun.jersey.api.container.filter.LoggingFilter": INFO
     "org.eclipse.jetty.servlets": DEBUG
     "org.glassfish.jersey.filter.LoggingFilter": DEBUG
+server:
+    type: simple
+    connector:
+      type: http
+      port: 8090
