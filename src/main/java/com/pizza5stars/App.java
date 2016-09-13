@@ -1,17 +1,26 @@
 package com.pizza5stars;
 
+import com.github.toastshaman.dropwizard.auth.jwt.JWTAuthFilter;
+import com.github.toastshaman.dropwizard.auth.jwt.JsonWebTokenParser;
+import com.github.toastshaman.dropwizard.auth.jwt.hmac.HmacSHA512Verifier;
+import com.github.toastshaman.dropwizard.auth.jwt.parser.DefaultJsonWebTokenParser;
+import com.pizza5stars.authentication.JWTAuthenticator;
 import com.pizza5stars.resources.*;
 import io.dropwizard.Application;
+import io.dropwizard.auth.AuthDynamicFeature;
+import io.dropwizard.auth.AuthValueFactoryProvider;
 import io.dropwizard.jdbi.DBIFactory;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import org.eclipse.jetty.servlets.CrossOriginFilter;
+import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 import org.skife.jdbi.v2.DBI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.DispatcherType;
 import javax.servlet.FilterRegistration;
+import java.security.Principal;
 import java.util.EnumSet;
 
 import static org.eclipse.jetty.servlets.CrossOriginFilter.*;
@@ -56,6 +65,23 @@ public class App extends Application<Pizza5StarsConfiguration> {
     private void registerRoutes(Pizza5StarsConfiguration c, Environment e, DBI jdbi) throws Exception {
         //Add the resource to the environment
         e.jersey().register(new CustomerResource(jdbi, e.getValidator()));
+        e.jersey().register(new AuthResource(jdbi, e.getValidator(), c.getJwtTokenSecret()));
+    }
+
+    private void registerAuthenticator(Pizza5StarsConfiguration c, Environment e, DBI jdbi) throws Exception {
+        //register token authentication
+        final JsonWebTokenParser tokenParser = new DefaultJsonWebTokenParser();
+        final HmacSHA512Verifier tokenVerifier = new HmacSHA512Verifier(c.getJwtTokenSecret());
+        e.jersey().register(new AuthDynamicFeature(
+                new JWTAuthFilter.Builder<>()
+                        .setTokenParser(tokenParser)
+                        .setTokenVerifier(tokenVerifier)
+                        .setRealm("realm")
+                        .setPrefix("Bearer")
+                        .setAuthenticator(new JWTAuthenticator(jdbi))
+                        .buildAuthFilter()));
+        e.jersey().register(new AuthValueFactoryProvider.Binder<>(Principal.class));
+        e.jersey().register(RolesAllowedDynamicFeature.class);
     }
 
 }

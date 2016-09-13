@@ -15,3 +15,4 @@
 | Endpoints              | Attributes         | Methods | Description                                             | Authorization |
 |------------------------|--------------------|---------|---------------------------------------------------------|---------------|
 | /customer              |                    | POST    | create user                                             |               |
+| /auth/login            |                    | POST    | login                                                   |               |
