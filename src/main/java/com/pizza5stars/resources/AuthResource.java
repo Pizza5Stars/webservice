@@ -95,5 +95,12 @@ public class AuthResource {
             return Response.ok(new AuthInfo(customer.getFirstName(), customer.getLastName(), customer.getEmail(), tokenMap)).build();
         }
     }
+
+    @GET
+    @Path("/authenticate")
+    public Response authenticate(@Auth Principal userPrincipal) {
+        Customer customer = (Customer) userPrincipal;
+        return Response.ok(customer).build();
+    }
 }
 
