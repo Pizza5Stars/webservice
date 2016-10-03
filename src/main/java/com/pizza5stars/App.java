@@ -66,6 +66,7 @@ public class App extends Application<Pizza5StarsConfiguration> {
         //Add the resource to the environment
         e.jersey().register(new CustomerResource(jdbi, e.getValidator()));
         e.jersey().register(new AuthResource(jdbi, e.getValidator(), c.getJwtTokenSecret()));
+        e.jersey().register(new IngredientResource(jdbi));
     }
 
     private void registerAuthenticator(Pizza5StarsConfiguration c, Environment e, DBI jdbi) throws Exception {
