@@ -17,3 +17,4 @@
 | /customer              |                    | POST    | create user                                             |               |
 | /auth/login            |                    | POST    | login                                                   |               |
 | /auth/authenticate     |                    | GET     | authenticate via Json-Web-Token                         |               |
+| /ingredients           |                    | GET     | get ingredients                                         |               |
