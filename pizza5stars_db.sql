@@ -240,4 +240,23 @@ CREATE TABLE IF NOT EXISTS `pizza5stars_db`.`rating` (
     REFERENCES `pizza5stars_db`.`customer` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+insert into category(name) values ("Dough"), ("Cheese"), ("Meat"), ("Vegetable"), ("Fruit");
+
+insert into ingredient (name, price, category_name) values ("Dough 1", 1.0, "Dough");
+insert into ingredient (name, price, category_name) values ("Dough 2", 1.0, "Dough");
+insert into ingredient (name, price, category_name) values ("Swiss Cheese", 1.0, "Cheese");
+insert into ingredient (name, price, category_name) values ("Parmesan", 1.0, "Cheese");
+insert into ingredient (name, price, category_name) values ("Tomato", 1.0, "Vegetable");
+insert into ingredient (name, price, category_name) values ("Salami", 1.0, "Meat");
+insert into ingredient (name, price, category_name) values ("Chicken", 1.0, "Meat");
+insert into ingredient (name, price, category_name) values ("Mango", 1.0, "Fruit");
+insert into ingredient (name, price, category_name) values ("Pineapple", 1.0, "Fruit");
+
+insert into size (name, size, price_factor) values ("xxl", 40, 1.3);
+insert into size (name, size, price_factor) values ("xl", 36, 1.2);
+insert into size (name, size, price_factor) values ("l", 30, 1.0);
+insert into size (name, size, price_factor) values ("s", 20, 0.9);
