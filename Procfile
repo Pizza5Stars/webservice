@@ -1,1 +1,1 @@
-web    java -jar target/webservice-1.0-SNAPSHOT.jar server config.yaml
+web    java $JAVA_OPTS -Ddw.http.port=$PORT -Ddw.http.adminPort=$PORT -jar target/example-develop-SNAPSHOT.jar server config.yaml
