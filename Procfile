@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -Ddw.http.port=$PORT -Ddw.http.adminPort=$PORT -jar target/example-develop-SNAPSHOT.jar server config.yaml
+web: java -jar $JAVA_OPTS -Ddw.http.port=$PORT -Denv=prod -Ddw.http.adminPort=$PORT target/example-develop-SNAPSHOT.jar server config.yml
