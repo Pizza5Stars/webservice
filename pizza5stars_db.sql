@@ -244,10 +244,11 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
 
-insert into category(name) values ("Dough"), ("Cheese"), ("Meat"), ("Vegetable"), ("Fruit");
+insert into category(name) values ("Dough"), ("Cheese"),("Sauce"), ("Meat"), ("Vegetable"), ("Fruit");
 
 insert into ingredient (name, price, category_name) values ("Dough 1", 1.0, "Dough");
 insert into ingredient (name, price, category_name) values ("Dough 2", 1.0, "Dough");
+insert into ingredient (name, price, category_name) values ("Tomatosauce", 1.0, "Sauce");
 insert into ingredient (name, price, category_name) values ("Swiss Cheese", 1.0, "Cheese");
 insert into ingredient (name, price, category_name) values ("Parmesan", 1.0, "Cheese");
 insert into ingredient (name, price, category_name) values ("Tomato", 1.0, "Vegetable");
