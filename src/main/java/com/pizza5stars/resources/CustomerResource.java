@@ -21,10 +21,14 @@ import java.util.Set;
 @Produces(MediaType.APPLICATION_JSON)
 public class CustomerResource {
     private final CustomerDAO customerDAO;
+    private final AddressDAO addressDAO;
+    private final PizzaDAO pizzaDAO;
     private final Validator validator;
 
     public CustomerResource(DBI jdbi, Validator validator) {
         this.customerDAO = jdbi.onDemand(CustomerDAO.class);
+        this.addressDAO = jdbi.onDemand(AddressDAO.class);
+        this.pizzaDAO = jdbi.onDemand(PizzaDAO.class);
         this.validator = validator;
     }
 
@@ -68,5 +72,42 @@ public class CustomerResource {
                     customer.getLastName(), password);
             return Response.ok(customerId).build();
         }
+    }
+
+    @POST
+    @Path("/address")
+    public Response addAddressToCustomer(@Auth Principal customerPrincipal, Address address) throws URISyntaxException {
+        Set<ConstraintViolation<Address>> violations = validator.validate(address);
+        if (violations.size() > 0) {
+            ArrayList<String> validationMessages = new ArrayList<String>();
+            for (ConstraintViolation<Address> violation : violations) {
+                validationMessages.add(violation.getPropertyPath().toString() + ": " + violation.getMessage());
+            }
+            return Response
+                    .status(Status.BAD_REQUEST)
+                    .entity(validationMessages)
+                    .build();
+        } else {
+            int customerId = ((Customer) customerPrincipal).getId();
+            int addressId = addressDAO.createAddress(
+                    address.getStreet(),
+                    address.getZipcode(),
+                    address.getHousenumber(),
+                    address.getCity(),
+                    address.getFirstname(),
+                    address.getLastname(),
+                    customerId,
+                    address.getPhone());
+            return Response.ok(addressId).build();
+        }
+    }
+
+
+    @GET
+    @Path("/addresses")
+    public Response getAddressesFromUser(@Auth Principal customerPrincipal) throws URISyntaxException {
+        int customerId = ((Customer) customerPrincipal).getId();
+        List<Address> addresses = addressDAO.getAddressesByCustomerId(customerId);
+        return Response.ok(addresses).build();
     }
 }
