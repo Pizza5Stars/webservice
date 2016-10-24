@@ -34,7 +34,7 @@ public interface AddressDAO {
                                      @Bind("phone") String phone);
 
     @Mapper(AddressMapper.class)
-    @SqlQuery("select * from address where customerId = :customerId")
+    @SqlQuery("select * from address where customer_id = :customerId")
     List<Address>getAddressesByCustomerId(@Bind("customerId") int customerId);
 
 
