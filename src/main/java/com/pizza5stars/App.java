@@ -44,6 +44,7 @@ public class App extends Application<Pizza5StarsConfiguration> {
         final DBIFactory factory = new DBIFactory();
         final DBI jdbi = factory.build(e, c.getDataSourceFactory(), "mysql");
 
+        registerAuthenticator(c, e, jdbi);
         registerRoutes(c, e, jdbi);
 
         //Allow Cross-Origin-Resource-Sharing
@@ -68,6 +69,7 @@ public class App extends Application<Pizza5StarsConfiguration> {
         e.jersey().register(new AuthResource(jdbi, e.getValidator(), c.getJwtTokenSecret()));
         e.jersey().register(new IngredientResource(jdbi));
         e.jersey().register(new PizzaResource(jdbi, e.getValidator()));
+        e.jersey().register(new AddressResource(jdbi, e.getValidator()));
     }
 
     private void registerAuthenticator(Pizza5StarsConfiguration c, Environment e, DBI jdbi) throws Exception {
