@@ -76,14 +76,14 @@ CREATE TABLE IF NOT EXISTS `pizza5stars_db`.`receipt` (
   `order_nr` INT(11) NOT NULL,
   `address_id` INT(11) NOT NULL,
   PRIMARY KEY (`nr`),
-  INDEX `fk_bill_order1_idx` (`order_nr` ASC),
-  INDEX `fk_bill_address1_idx` (`address_id` ASC),
-  CONSTRAINT `fk_bill_address1`
+  INDEX `fk_receipt_order1_idx` (`order_nr` ASC),
+  INDEX `fk_receipt_address1_idx` (`address_id` ASC),
+  CONSTRAINT `fk_receipt_address1`
     FOREIGN KEY (`address_id`)
     REFERENCES `pizza5stars_db`.`address` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_bill_order1`
+  CONSTRAINT `fk_receipt_order1`
     FOREIGN KEY (`order_nr`)
     REFERENCES `pizza5stars_db`.`order` (`nr`)
     ON DELETE NO ACTION

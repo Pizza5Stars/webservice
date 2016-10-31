@@ -25,14 +25,14 @@ public class CustomerResource {
     private final PizzaDAO pizzaDAO;
     private final OrderDAO orderDAO;
     private final Validator validator;
-    private final BillDAO billDAO;
+    private final ReceiptDAO receiptDAO;
 
     public CustomerResource(DBI jdbi, Validator validator) {
         this.customerDAO = jdbi.onDemand(CustomerDAO.class);
         this.addressDAO = jdbi.onDemand(AddressDAO.class);
         this.pizzaDAO = jdbi.onDemand(PizzaDAO.class);
         this.orderDAO = jdbi.onDemand(OrderDAO.class);
-        this.billDAO = jdbi.onDemand(BillDAO.class);
+        this.receiptDAO = jdbi.onDemand(ReceiptDAO.class);
         this.validator = validator;
     }
 
@@ -137,17 +137,17 @@ public class CustomerResource {
 
             //create bill
             double total = orderDAO.getPriceOfOrderByNr(orderId);
-            int billId = billDAO.insertBill(total, orderId, order.getAddressId());
+            int billId = receiptDAO.insertReceipt(total, orderId, order.getAddressId());
 
             return Response.ok(billId).build();
         }
     }
 
     @GET
-    @Path("/bills")
+    @Path("/receipts")
     public Response getBillsFromCustomer(@Auth Principal userPrincipal) throws URISyntaxException {
         int customerId = ((Customer) userPrincipal).getId();
-        List<Bill> bills = billDAO.getBillsByCustomerId(customerId);
+        List<Receipt> bills = receiptDAO.getReceiptByCustomerId(customerId);
         return Response.ok(bills).build();
     }
 }

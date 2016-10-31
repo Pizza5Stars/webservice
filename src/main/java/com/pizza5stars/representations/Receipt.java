@@ -2,14 +2,14 @@ package com.pizza5stars.representations;
 
 import java.util.List;
 
-public class Bill {
+public class Receipt {
     private final int nr;
     private final double total;
     private final int orderNr;
     private final Address address;
     private final List<String> pizzaNames;
 
-    public Bill() {
+    public Receipt() {
         this.nr = 0;
         this.total = 0;
         this.orderNr = 0;
@@ -17,7 +17,7 @@ public class Bill {
         this.pizzaNames = null;
     }
 
-    public Bill(int nr, double total, int orderNr, Address address, List<String> pizzaNames) {
+    public Receipt(int nr, double total, int orderNr, Address address, List<String> pizzaNames) {
         this.nr = nr;
         this.total = total;
         this.orderNr = orderNr;
