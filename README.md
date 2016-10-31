@@ -16,10 +16,12 @@
 |------------------------|--------------------|---------|-------------------------------------------------------------|---------------|
 | /customer/address      |                    | POST    | add address to logged in customer                           |       X       |
 | /customer/addresses    |                    | GET     | get addresses of  logged in customer                        |       X       |
+| /customer/order        |                    | POST    | create order for logged in customer                         |       X       |
 | /customer              |                    | POST    | create customer                                             |               |
 | /auth/login            |                    | POST    | login                                                       |               |
 | /auth/authenticate     |                    | GET     | authenticate via Json-Web-Token                             |               |
 | /ingredients           |                    | GET     | get ingredients                                             |               |
+| /order                 |                    | POST    | create order without registered customer                    |               |
 | /pizza/suggestions     |                    | GET     | get suggested pizzas                                        |               |
 | /pizza/sizes           |                    | GET     | get possible sizes of pizza                                 |               |
 | /pizza                 |                    | POST    | create pizza without registered customer                    |               |
