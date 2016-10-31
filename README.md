@@ -17,6 +17,7 @@
 | /customer/address      |                    | POST    | add address to logged in customer                           |       X       |
 | /customer/addresses    |                    | GET     | get addresses of  logged in customer                        |       X       |
 | /customer/order        |                    | POST    | create order for logged in customer                         |       X       |
+| /customer/bills        |                    | GET     | get bills of logged in customer                             |       X       |
 | /customer              |                    | POST    | create customer                                             |               |
 | /auth/login            |                    | POST    | login                                                       |               |
 | /auth/authenticate     |                    | GET     | authenticate via Json-Web-Token                             |               |

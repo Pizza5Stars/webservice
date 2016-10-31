@@ -23,14 +23,19 @@ public class CustomerResource {
     private final CustomerDAO customerDAO;
     private final AddressDAO addressDAO;
     private final PizzaDAO pizzaDAO;
+    private final OrderDAO orderDAO;
     private final Validator validator;
+    private final BillDAO billDAO;
 
     public CustomerResource(DBI jdbi, Validator validator) {
         this.customerDAO = jdbi.onDemand(CustomerDAO.class);
         this.addressDAO = jdbi.onDemand(AddressDAO.class);
         this.pizzaDAO = jdbi.onDemand(PizzaDAO.class);
+        this.orderDAO = jdbi.onDemand(OrderDAO.class);
+        this.billDAO = jdbi.onDemand(BillDAO.class);
         this.validator = validator;
     }
+
 
     @POST
     public Response createCustomer(Customer customer) throws URISyntaxException {
@@ -109,5 +114,40 @@ public class CustomerResource {
         int customerId = ((Customer) customerPrincipal).getId();
         List<Address> addresses = addressDAO.getAddressesByCustomerId(customerId);
         return Response.ok(addresses).build();
+    }
+
+    @POST
+    @Path("/order")
+    public Response createOrder(@Auth Principal customerPrincipal, Order order) {
+        Set<ConstraintViolation<Order>> violations = validator.validate(order);
+        if (violations.size() > 0) {
+            ArrayList<String> validationMessages = new ArrayList<String>();
+            for (ConstraintViolation<Order> violation : violations) {
+                validationMessages.add(violation.getPropertyPath().toString() + ": " + violation.getMessage());
+            }
+            return Response
+                    .status(Response.Status.BAD_REQUEST)
+                    .entity(validationMessages)
+                    .build();
+        } else {
+
+            //create order
+            int customerId = ((Customer) customerPrincipal).getId();
+            int orderId = orderDAO.createOrderWithinTransaction(order, customerId);
+
+            //create bill
+            double total = orderDAO.getPriceOfOrderByNr(orderId);
+            int billId = billDAO.insertBill(total, orderId, order.getAddressId());
+
+            return Response.ok(billId).build();
+        }
+    }
+
+    @GET
+    @Path("/bills")
+    public Response getBillsFromCustomer(@Auth Principal userPrincipal) throws URISyntaxException {
+        int customerId = ((Customer) userPrincipal).getId();
+        List<Bill> bills = billDAO.getBillsByCustomerId(customerId);
+        return Response.ok(bills).build();
     }
 }
