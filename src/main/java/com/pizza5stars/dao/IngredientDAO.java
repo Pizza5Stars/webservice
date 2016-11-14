@@ -17,5 +17,3 @@ public interface IngredientDAO {
     @SqlUpdate("insert into ingredient (name, price) values (:name, :price)")
     void createIngredient(@Bind("name") String name, @Bind("price") double price);
 }
-
-

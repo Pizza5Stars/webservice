@@ -18,6 +18,10 @@
 | /customer/addresses    |                    | GET     | get addresses of  logged in customer                        |       X       |
 | /customer/order        |                    | POST    | create order for logged in customer                         |       X       |
 | /customer/receipt      |                    | GET     | get receipts of logged in customer                          |       X       |
+| /customer/pizza        |                    | POST    | add new pizza to logged in customer                         |       X       |
+| /customer/pizza        |                    | PUT     | update pizza of  logged in customer                         |       X       |
+| /customer/pizzas       |                    | GET     | get pizzas of loggedin customer                             |       X       |
+| /customer/pizzas/:id   |                    | DELETE  | delete pizza of logged in customer with id                  |       X       |
 | /customer              |                    | POST    | create customer                                             |               |
 | /auth/login            |                    | POST    | login                                                       |               |
 | /auth/authenticate     |                    | GET     | authenticate via Json-Web-Token                             |               |
