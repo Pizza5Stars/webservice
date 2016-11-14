@@ -150,4 +150,12 @@ public class CustomerResource {
         List<Receipt> bills = receiptDAO.getReceiptByCustomerId(customerId);
         return Response.ok(bills).build();
     }
+
+    @GET
+    @Path("/pizzas")
+    public Response getPizzasFromUser(@Auth Principal customerPrincipal) throws URISyntaxException {
+        int customerId = ((Customer) customerPrincipal).getId();
+        List<Pizza> pizzas = pizzaDAO.getPizzasFromCustomerId(customerId);
+        return Response.ok(pizzas).build();
+    }
 }
