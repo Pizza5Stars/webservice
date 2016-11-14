@@ -151,11 +151,46 @@ public class CustomerResource {
         return Response.ok(bills).build();
     }
 
+    @POST
+    @Path("/pizza")
+    public Response addPizzaToCustomer(@Auth Principal customerPrincipal, Pizza pizza) throws URISyntaxException {
+        Set<ConstraintViolation<Pizza>> violations = validator.validate(pizza);
+        if (violations.size() > 0) {
+            ArrayList<String> validationMessages = new ArrayList<String>();
+            for (ConstraintViolation<Pizza> violation : violations) {
+                validationMessages.add(violation.getPropertyPath().toString() + ": " + violation.getMessage());
+            }
+            return Response
+                    .status(Status.BAD_REQUEST)
+                    .entity(validationMessages)
+                    .build();
+        } else {
+            int customerId = ((Customer) customerPrincipal).getId();
+            int pizzaId = pizzaDAO.createPizzaWithinTransaction(customerId, pizza);
+            return Response.ok(pizzaId).build();
+        }
+    }
+
     @GET
     @Path("/pizzas")
-    public Response getPizzasFromUser(@Auth Principal customerPrincipal) throws URISyntaxException {
+    public Response getPizzasFromCustomer(@Auth Principal customerPrincipal) throws URISyntaxException {
         int customerId = ((Customer) customerPrincipal).getId();
         List<Pizza> pizzas = pizzaDAO.getPizzasFromCustomerId(customerId);
         return Response.ok(pizzas).build();
+    }
+
+    @DELETE
+    @Path("/pizza/{id}")
+    public Response deletePizza(@Auth Principal customerPrincipal, @PathParam("id") int id) {
+        int userId = ((Customer) customerPrincipal).getId();
+
+        //check if pizza belongs to user
+        if (pizzaDAO.getCountOfPizzasByCustomerIdAndPizzaId(userId, id) == 0) {
+            return Response.status(Status.BAD_REQUEST).build();
+        }
+
+        pizzaDAO.deletePizza(id);
+
+        return Response.noContent().build();
     }
 }
