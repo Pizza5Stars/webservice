@@ -231,12 +231,12 @@ CREATE TABLE IF NOT EXISTS `pizza5stars_db`.`rating` (
   `rating` FLOAT NULL DEFAULT 0.0,
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_rating_pizza`
-    FOREIGN KEY (`id`)
+    FOREIGN KEY (`pizza_id`)
     REFERENCES `pizza5stars_db`.`pizza` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_rating_customer`
-    FOREIGN KEY (`id`)
+    FOREIGN KEY (`customer_id`)
     REFERENCES `pizza5stars_db`.`customer` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)

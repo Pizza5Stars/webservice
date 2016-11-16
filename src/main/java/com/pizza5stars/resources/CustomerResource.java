@@ -26,6 +26,7 @@ public class CustomerResource {
     private final OrderDAO orderDAO;
     private final Validator validator;
     private final ReceiptDAO receiptDAO;
+    private final RatingDAO ratingDAO;
 
     public CustomerResource(DBI jdbi, Validator validator) {
         this.customerDAO = jdbi.onDemand(CustomerDAO.class);
@@ -33,6 +34,7 @@ public class CustomerResource {
         this.pizzaDAO = jdbi.onDemand(PizzaDAO.class);
         this.orderDAO = jdbi.onDemand(OrderDAO.class);
         this.receiptDAO = jdbi.onDemand(ReceiptDAO.class);
+        this.ratingDAO = jdbi.onDemand(RatingDAO.class);
         this.validator = validator;
     }
 
@@ -149,6 +151,29 @@ public class CustomerResource {
         int customerId = ((Customer) userPrincipal).getId();
         List<Receipt> bills = receiptDAO.getReceiptByCustomerId(customerId);
         return Response.ok(bills).build();
+    }
+
+    @POST
+    @Path("/rate")
+    public Response createRating(@Auth Principal customerPrincipal, Rating rating) {
+        Set<ConstraintViolation<Rating>> violations = validator.validate(rating);
+        if (violations.size() > 0) {
+            ArrayList<String> validationMessages = new ArrayList<String>();
+            for (ConstraintViolation<Rating> violation : violations) {
+                validationMessages.add(violation.getPropertyPath().toString() + ": " + violation.getMessage());
+            }
+            return Response
+                    .status(Response.Status.BAD_REQUEST)
+                    .entity(validationMessages)
+                    .build();
+        } else {
+
+            //create rating
+            int customerId = ((Customer) customerPrincipal).getId();
+            int ratingId = ratingDAO.createRating(customerId, rating.getPizzaId(), rating.getRating());
+
+            return Response.ok(ratingId).build();
+        }
     }
 
     @POST
