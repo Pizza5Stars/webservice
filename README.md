@@ -17,7 +17,7 @@
 | /customer/address      |                    | POST    | add address to logged in customer                           |       X       |
 | /customer/addresses    |                    | GET     | get addresses of  logged in customer                        |       X       |
 | /customer/order        |                    | POST    | create order for logged in customer                         |       X       |
-| /customer/receipt      |                    | GET     | get receipts of logged in customer                          |       X       |
+| /customer/receipts     |                    | GET     | get receipts of logged in customer                          |       X       |
 | /customer/pizza        |                    | POST    | add new pizza to logged in customer                         |       X       |
 | /customer/pizza        |                    | PUT     | update pizza of  logged in customer                         |       X       |
 | /customer/pizzas       |                    | GET     | get pizzas of loggedin customer                             |       X       |
