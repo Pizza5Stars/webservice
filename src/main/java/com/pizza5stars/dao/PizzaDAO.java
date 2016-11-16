@@ -36,7 +36,7 @@ public abstract class PizzaDAO {
     public abstract void deletePizza(@Bind("id") int id);
 
     @SqlQuery("select count(*) from pizza where customer_id = :customerId and id = :pizzaId")
-    public abstract int getCountOfPizzasByUserIdAndPizzaId(@Bind("customerId") int userId, @Bind("pizzaId") int pizzaId);
+    public abstract int getCountOfPizzasByCustomerIdAndPizzaId(@Bind("customerId") int userId, @Bind("pizzaId") int pizzaId);
 
 
     /*
@@ -61,7 +61,7 @@ public abstract class PizzaDAO {
             "join ingredient on pizza_ingredient.ingredient_name = ingredient.name " +
             "where pizza.customer_id = :customer_id " +
             "group by pizza.id")
-    public abstract List<Pizza> getPizzasFromUserId(@Bind("customer_id") int customerId);
+    public abstract List<Pizza> getPizzasFromCustomerId(@Bind("customer_id") int customerId);
 
     @Mapper(PizzaMapper.class)
     @SqlQuery("select pizza.id, pizza.name, pizza.size_name " +
