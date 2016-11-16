@@ -22,5 +22,9 @@ public interface RatingDAO {
     @SqlQuery("select * from rating where customer_id = :customerId")
     List<Rating>getRatingsByCustomerId(@Bind("customerId") int customerId);
 
+    @Mapper(RatingMapper.class)
+    @SqlQuery("select AVG(rating) from rating where pizza_id = :pizzaId")
+    int getRatingsByPizzaId(@Bind("pizzaId") int pizzaId);
+
 
 }
