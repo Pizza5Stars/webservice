@@ -4,16 +4,16 @@ import org.hibernate.validator.constraints.NotBlank;
 
 public class Rating {
     @NotBlank
-    private final int pizzaId;
+    private final int pizza_id;
     private final double rating;
 
     public Rating(int pizzaId, double value) {
-        this.pizzaId = pizzaId;
+        this.pizza_id = pizzaId;
         this.rating = value;
     }
 
     public int getPizzaId() {
-        return pizzaId;
+        return pizza_id;
     }
 
     public double getRating() {

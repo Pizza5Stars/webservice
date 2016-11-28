@@ -13,10 +13,10 @@ import java.util.List;
 
 public interface RatingDAO {
     @GetGeneratedKeys
-    @SqlUpdate("insert into rating (customerId, pizzaId, value) values (:customerId, :pizzaId, :value)")
+    @SqlUpdate("insert into rating (customer_id, pizza_id, rating) values (:customerId, :pizzaId, :rating)")
     int createRating(@Bind("customerId") int customerId,
                      @Bind("pizzaId") int pizzaId,
-                     @Bind("rating") double value);
+                     @Bind("rating") double rating);
 
     @Mapper(RatingMapper.class)
     @SqlQuery("select * from rating where customer_id = :customerId")

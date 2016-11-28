@@ -6,6 +6,7 @@ import com.pizza5stars.representations.Ingredient;
 import com.pizza5stars.representations.Rating;
 import org.skife.jdbi.v2.DBI;
 
+import javax.validation.Validator;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -19,8 +20,11 @@ import java.util.List;
 public class RatingResource {
 
     private final RatingDAO ratingDAO;
-    public RatingResource(DBI jdbi) {
+    private final Validator validator;
+
+    public RatingResource(DBI jdbi, Validator validator) {
         this.ratingDAO = jdbi.onDemand(RatingDAO.class);
+        this.validator = validator;
     }
 
     @GET

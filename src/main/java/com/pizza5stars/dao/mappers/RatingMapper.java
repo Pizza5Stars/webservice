@@ -12,7 +12,7 @@ public class RatingMapper implements ResultSetMapper<Rating> {
             throws SQLException {
 
         return new Rating(
-                r.getInt("pizzaId"),
+                r.getInt("pizza_id"),
                 r.getDouble("rating"));
     }
 }
