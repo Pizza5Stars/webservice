@@ -18,14 +18,14 @@ public interface ReceiptDAO {
 
     @Mapper(ReceiptMapper.class)
     @SqlQuery(
-            "select receipt.* , address.*, `order`.*, pizza.name " +
-            ",group_concat(pizza.name separator ',') as pizzas " +
-            "from receipt " +
-            "join address on receipt.address_id = address.id " +
-            "join `order` on receipt.order_nr = `order`.nr " +
-            "join pizza_order on pizza_order.order_nr = `order`.nr "+
-            "join pizza on pizza_order.pizza_id = pizza.id " +
-            "where `order`.customer_id = :userId " +
-            "group by receipt.nr")
-    List<Receipt> getReceiptByCustomerId(@Bind("customerId") int customerId);
+            "select receipt.* , address.*, `order`.* " +
+                    ",group_concat(pizza.name separator ',') as pizzas " +
+                    "from receipt " +
+                    "join address on receipt.address_id = address.id " +
+                    "join `order` on receipt.order_nr = `order`.nr " +
+                    "join pizza_order on pizza_order.order_nr = `order`.nr "+
+                    "join pizza on pizza_order.pizza_id = pizza.id " +
+                    "where `order`.customer_id = :customerId " +
+                    "group by receipt.nr")
+    List<Receipt> getReceiptsByCustomerId(@Bind("customerId") int customerId);
 }
