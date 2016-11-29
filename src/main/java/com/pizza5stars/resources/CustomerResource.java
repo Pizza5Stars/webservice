@@ -147,10 +147,10 @@ public class CustomerResource {
 
     @GET
     @Path("/receipts")
-    public Response getBillsFromCustomer(@Auth Principal userPrincipal) throws URISyntaxException {
-        int customerId = ((Customer) userPrincipal).getId();
-        List<Receipt> bills = receiptDAO.getReceiptByCustomerId(customerId);
-        return Response.ok(bills).build();
+    public Response getReceiptsFromCustomer(@Auth Principal customerPrincipal) throws URISyntaxException {
+        int customerId = ((Customer) customerPrincipal).getId();
+        List<Receipt> receipts = receiptDAO.getReceiptsByCustomerId(customerId);
+        return Response.ok(receipts).build();
     }
 
     @POST
