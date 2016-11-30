@@ -1,10 +1,6 @@
 -- -----------------------------------------------------
 -- Schema pizza5stars_db
 -- -----------------------------------------------------
-
--- -----------------------------------------------------
--- Schema pizza5stars_db
--- -----------------------------------------------------
 CREATE SCHEMA IF NOT EXISTS `pizza5stars_db` DEFAULT CHARACTER SET utf8 ;
 USE `pizza5stars_db` ;
 
@@ -243,12 +239,17 @@ CREATE TABLE IF NOT EXISTS `pizza5stars_db`.`rating` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
+INSERT INTO `customer` (`id`, `email`, `firstname`, `lastname`, `password`, `deleted`) VALUES(1, 'customer@test.com', 'Max', 'Smith', '1pjh3mRjhXgO+j/itkFxyw0+oe6DLzNLz/GJi0v9SEQ=\r\n$EZXXaKzt2/ZH+TRzr6d3ifcUoEllAxTmH2xnocQbZWI=\r\n', 0);
+
+INSERT INTO `address` (`id`, `street`, `zipcode`, `housenumber`, `city`, `firstname`, `lastname`, `customer_id`, `phone`) VALUES
+	(1, 'East CornerStreet', '908125', '1726', 'Los Angeles', 'Max', 'Smith', 1, '3237650091');
 
 insert into category(name) values ("Dough"), ("Cheese"),("Sauce"), ("Meat"), ("Vegetable"), ("Fruit");
 
 insert into ingredient (name, price, category_name) values ("Dough 1", 1.0, "Dough");
 insert into ingredient (name, price, category_name) values ("Dough 2", 1.0, "Dough");
 insert into ingredient (name, price, category_name) values ("Tomatosauce", 1.0, "Sauce");
+insert into ingredient (name, price, category_name) values ("Garlicsauce", 1.0, "Sauce");
 insert into ingredient (name, price, category_name) values ("Swiss Cheese", 1.0, "Cheese");
 insert into ingredient (name, price, category_name) values ("Parmesan", 1.0, "Cheese");
 insert into ingredient (name, price, category_name) values ("Tomato", 1.0, "Vegetable");
@@ -261,3 +262,40 @@ insert into size (name, size, price_factor) values ("xxl", 40, 1.3);
 insert into size (name, size, price_factor) values ("xl", 36, 1.2);
 insert into size (name, size, price_factor) values ("l", 30, 1.0);
 insert into size (name, size, price_factor) values ("s", 20, 0.9);
+
+INSERT INTO `order` (`nr`, `date`, `customer_id`) VALUES
+	(2, '2016-11-28 11:32:14', 1),
+	(3, '2016-10-31 11:02:31', 1),
+	(4, '2016-11-02 09:59:23', 1);
+
+INSERT INTO `pizza` (`id`, `name`, `customer_id`, `size_name`, `is_default`, `company_id`) VALUES
+	(4, 'MyPizza', 1, 'xl', 0, NULL),
+	(5, 'CoolPizza', 1, 'l', 0, NULL),
+	(6, 'BestPizza', 1, 'xl', 1, NULL);
+INSERT INTO `pizza_ingredient` (`pizza_id`, `ingredient_name`) VALUES
+	(4, 'Dough 1'),
+	(4, 'Chicken'),
+	(4, 'Salami'),
+	(4, 'Tomato'),
+	(4, 'Pineapple'),
+	(4, 'Parmesan'),
+	(4, 'Swiss Cheese'),
+	(5, 'Dough 1'),
+	(5, 'Chicken'),
+	(5, 'Salami'),
+	(5, 'Tomato'),
+	(5, 'Pineapple'),
+	(5, 'Parmesan'),
+	(5, 'Swiss Cheese');
+
+INSERT INTO `pizza_order` (`order_nr`, `pizza_id`) VALUES
+	(2, 4),
+	(3, 4),
+	(4, 4);
+
+INSERT INTO `rating` (`id`, `customer_id`, `pizza_id`, `rating`) VALUES
+	(1, 1, 4, 5);
+
+
+INSERT INTO `receipt` (`nr`, `total`, `date`, `order_nr`, `address_id`) VALUES
+	(1, 8.40, '2016-11-02 09:59:23', 4, 1);
